@@ -107,6 +107,22 @@ File bytes use a separate file storage abstraction in `src/lib/files`:
 
 Feature components should call feature services rather than importing Firebase SDKs or local database APIs directly.
 
+## Phase 4 Report Usage
+
+The reports feature continues to use the existing `doctorReports` repository in every runtime mode. The stored `DoctorReport` document now identifies one of five report types and keeps typed sections, source record IDs, disclaimer metadata, and a generator version.
+
+Report creation follows this boundary:
+
+1. The client report service obtains the current user and `StorageProvider` through the existing client service boundary.
+2. The service reads only the repositories permitted for the selected report type.
+3. A pure deterministic generator produces report sections from existing records.
+4. Zod validates the report document in the local or Firebase repository adapter before persistence.
+5. Detail, Markdown, HTML, and print renderers use the persisted report snapshot.
+
+Research Summary has a deliberately narrower data boundary: it reads `researchNotes` only. It does not read `researchSources`, medical records, curated/global research stores, or external services.
+
+The UI does not access Firebase or IndexedDB directly. Firebase ownership rules already include `doctorReports`, and local-only reports remain in the existing `doctorReports` IndexedDB object store. No SQL or Prisma storage path is introduced.
+
 ## Provider Interface Shape
 
 The storage provider should expose repositories as a single dependency root:

@@ -42,6 +42,7 @@ Every AI-generated medical output must include:
 - [Local-Only Mode](docs/local-only-mode.md)
 - [Implementation Plan](docs/implementation-plan.md)
 - [Feature Roadmap](docs/feature-roadmap.md)
+- [Reports](docs/features/reports.md)
 
 ## Repository Status
 
@@ -58,8 +59,11 @@ This repository contains the foundation and the feature slices completed through
 - Patient dashboard with repository-backed summaries and reusable charts.
 - Daily symptom tracker with create, history, detail, edit, delete, validation, and timeline helper events.
 - Treatment history with active/past organization, detail, edit, delete, validation, and timeline helper events.
+- Phase 3 medical document, appointment preparation, and unified timeline features.
+- Phase 4 deterministic Patient Summary, Doctor Visit, Research Summary, Symptom Trend, and Quality of Life reports.
+- Repository-backed report dashboard, creation flow, detail pages, Markdown/HTML exports, and a printable browser layout.
 
-Advanced AI, research copilot, OCR, complex report generation, and knowledge graph UI are intentionally out of scope for this phase.
+AI Assistant, Research Copilot, Science Skills, OCR, and knowledge graph UI remain out of scope. Phase 5 has not been started.
 
 ## Local Development
 

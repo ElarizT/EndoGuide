@@ -57,6 +57,7 @@ export function AppointmentDetailClient({ id }: { id: string }) {
     });
     const report = await storage.doctorReports.create({
       userId: user.id,
+      reportType: "doctor-visit",
       title: output.title,
       generatedAt: new Date().toISOString(),
       sections: output.sections.map((section) => ({
@@ -72,7 +73,8 @@ export function AppointmentDetailClient({ id }: { id: string }) {
         ...documents.map((item) => item.id),
         ...timelineEvents.map((item) => item.id)
       ],
-      disclaimerIncluded: true
+      disclaimerIncluded: true,
+      generatorVersion: "appointment-preparation-v1"
     });
     const updatedAppointment = await storage.appointments.update(appointment.id, user.id, {
       preparationSummaryId: report.id

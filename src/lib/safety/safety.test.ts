@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   MEDICAL_OUTPUT_DISCLAIMER,
+  RESEARCH_OUTPUT_DISCLAIMER,
   TREATMENT_RECOMMENDATION_REFUSAL,
   appendMedicalDisclaimer,
   getSafetyResponseForRequest
@@ -17,6 +18,10 @@ describe("safety constants", () => {
     expect(MEDICAL_OUTPUT_DISCLAIMER).toBe(
       "This information is for educational and organizational purposes only and should not be used as medical advice."
     );
+  });
+
+  it("keeps the research output disclaimer exact", () => {
+    expect(RESEARCH_OUTPUT_DISCLAIMER).toBe("Research information is not medical advice.");
   });
 
   it("returns the exact refusal for treatment advice requests", () => {

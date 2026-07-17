@@ -6,6 +6,7 @@ import type {
   TreatmentEntry
 } from "@/lib/domain";
 import { renderDisclaimerHtml, renderMedicalDisclaimer } from "./disclaimer";
+import { sanitizeReportText } from "@/features/reports/report-exporters";
 
 export type AppointmentPreparationData = {
   appointment: Appointment;
@@ -187,20 +188,20 @@ function patientNarrative(data: AppointmentPreparationData) {
 
 function renderMarkdown(title: string, sections: AppointmentPreparationOutput["sections"]) {
   const body = sections.map((section) => {
-    const items = section.items?.length ? `\n${section.items.map((item) => `- ${item}`).join("\n")}` : "";
-    return `## ${section.heading}\n${section.body}${items}`;
+    const items = section.items?.length ? `\n${section.items.map((item) => `- ${sanitizeReportText(item)}`).join("\n")}` : "";
+    return `## ${sanitizeReportText(section.heading)}\n${sanitizeReportText(section.body)}${items}`;
   }).join("\n\n");
-  return `# ${title}\n\n${body}\n\n${renderMedicalDisclaimer()}`;
+  return `# ${sanitizeReportText(title)}\n\n${body}\n\n${renderMedicalDisclaimer()}`;
 }
 
 function renderHtml(title: string, sections: AppointmentPreparationOutput["sections"], printable: boolean) {
   const sectionHtml = sections.map((section) => {
     const items = section.items?.length
-      ? `<ul>${section.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+      ? `<ul>${section.items.map((item) => `<li>${escapeHtml(sanitizeReportText(item))}</li>`).join("")}</ul>`
       : "";
-    return `<section><h2>${escapeHtml(section.heading)}</h2><p>${escapeHtml(section.body).replace(/\n/g, "<br />")}</p>${items}</section>`;
+    return `<section><h2>${escapeHtml(sanitizeReportText(section.heading))}</h2><p>${escapeHtml(sanitizeReportText(section.body)).replace(/\n/g, "<br />")}</p>${items}</section>`;
   }).join("");
-  return `<!doctype html><html><head><meta charset="utf-8" /><title>${escapeHtml(title)}</title>${printable ? "<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:32px}.medical-disclaimer{border-top:1px solid #ccc;padding-top:16px;color:#555}</style>" : ""}</head><body><h1>${escapeHtml(title)}</h1>${sectionHtml}${renderDisclaimerHtml()}${printable ? "<p>PDF export: TODO.</p>" : ""}</body></html>`;
+  return `<!doctype html><html><head><meta charset="utf-8" /><title>${escapeHtml(sanitizeReportText(title))}</title>${printable ? "<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:32px}.medical-disclaimer{border-top:1px solid #ccc;padding-top:16px;color:#555}</style>" : ""}</head><body><h1>${escapeHtml(sanitizeReportText(title))}</h1>${sectionHtml}${renderDisclaimerHtml()}</body></html>`;
 }
 
 function formatDate(value?: string) {

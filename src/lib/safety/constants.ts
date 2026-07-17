@@ -4,6 +4,9 @@ export const TREATMENT_RECOMMENDATION_REFUSAL =
 export const MEDICAL_OUTPUT_DISCLAIMER =
   "This information is for educational and organizational purposes only and should not be used as medical advice.";
 
+export const RESEARCH_OUTPUT_DISCLAIMER =
+  "Research information is not medical advice.";
+
 export const DISALLOWED_MEDICAL_ACTIONS = [
   "diagnose",
   "prescribe",

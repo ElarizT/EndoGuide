@@ -30,3 +30,29 @@
     @apply bg-background text-foreground antialiased;
   }
 }
+
+@media print {
+  aside,
+  .print-hidden,
+  body > div > main > p {
+    display: none !important;
+  }
+
+  body > div {
+    display: block !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  .report-print {
+    color: #111827;
+    padding: 0;
+  }
+
+  .report-print section,
+  .report-disclaimer {
+    break-inside: avoid;
+  }
+}

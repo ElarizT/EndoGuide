@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { REPORT_TYPES } from "@/lib/domain";
 
 const isoDate = z.string().datetime({ offset: true });
 const id = z.string().min(1);
@@ -143,12 +144,18 @@ export const documentTagSchema = userOwnedDocumentSchema.extend({
 });
 
 export const doctorReportSchema = userOwnedDocumentSchema.extend({
+  reportType: z.enum(REPORT_TYPES).default("doctor-visit"),
   title: z.string().min(1),
   generatedAt: isoDate,
   dateRange: z.object({ start: isoDate.optional(), end: isoDate.optional() }).optional(),
-  sections: z.array(z.object({ heading: z.string(), body: z.string() })).default([]),
+  sections: z.array(z.object({
+    heading: z.string().min(1),
+    body: z.string(),
+    items: z.array(z.string()).optional()
+  })).default([]),
   sourceRecordIds: z.array(z.string()).optional(),
-  disclaimerIncluded: z.boolean()
+  disclaimerIncluded: z.literal(true),
+  generatorVersion: z.string().optional()
 });
 
 export const timelineEventSchema = userOwnedDocumentSchema.extend({

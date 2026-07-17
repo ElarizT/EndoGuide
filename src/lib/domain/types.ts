@@ -141,13 +141,31 @@ export type DocumentTag = UserOwnedDocument & {
   description?: string;
 };
 
+export const REPORT_TYPES = [
+  "patient-summary",
+  "doctor-visit",
+  "research-summary",
+  "symptom-trend",
+  "quality-of-life"
+] as const;
+
+export type ReportType = (typeof REPORT_TYPES)[number];
+
+export type ReportSection = {
+  heading: string;
+  body: string;
+  items?: string[];
+};
+
 export type DoctorReport = UserOwnedDocument & {
+  reportType: ReportType;
   title: string;
   generatedAt: ISODateString;
   dateRange?: { start?: ISODateString; end?: ISODateString };
-  sections: Array<{ heading: string; body: string }>;
+  sections: ReportSection[];
   sourceRecordIds?: string[];
   disclaimerIncluded: boolean;
+  generatorVersion?: string;
 };
 
 export type TimelineEvent = UserOwnedDocument & {

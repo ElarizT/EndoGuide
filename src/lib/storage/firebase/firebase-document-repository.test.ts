@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import type { MedicalDocument } from "@/lib/domain";
-import { medicalDocumentSchema } from "@/lib/validation";
+import type { DoctorReport, MedicalDocument } from "@/lib/domain";
+import { doctorReportSchema, medicalDocumentSchema } from "@/lib/validation";
 import { createFirebaseRepository } from "./generic-repository";
 
 const firestoreMocks = vi.hoisted(() => {
@@ -58,5 +58,29 @@ describe("firebase document repository mocks", () => {
       storageMode: "firebase"
     });
     expect(firestoreMocks.setDoc).toHaveBeenCalled();
+  });
+
+  it("persists report metadata through the Firebase repository boundary", async () => {
+    firestoreMocks.store.clear();
+    const repository = createFirebaseRepository<DoctorReport>(
+      {} as never,
+      "doctorReports",
+      doctorReportSchema
+    );
+    const created = await repository.create({
+      id: "firebase-report-1",
+      userId: "firebase-user",
+      reportType: "quality-of-life",
+      title: "Quality of Life",
+      generatedAt: "2026-01-01T00:00:00.000Z",
+      sections: [{ heading: "Recorded impacts", body: "Stored values only." }],
+      disclaimerIncluded: true,
+      generatorVersion: "phase-4-v1"
+    });
+
+    expect(await repository.getById(created.id, "firebase-user")).toMatchObject({
+      reportType: "quality-of-life",
+      generatorVersion: "phase-4-v1"
+    });
   });
 });
