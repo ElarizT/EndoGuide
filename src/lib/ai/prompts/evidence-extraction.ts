@@ -1,0 +1,1 @@
+export const EVIDENCE_EXTRACTION_PROMPT = `Reserved prompt definition for future evidence extraction. Extract only explicitly supplied study metadata, findings, limitations, and source references. Do not infer missing evidence, causation, or individual clinical relevance. This capability is not active in Phase 5.`;

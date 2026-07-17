@@ -64,4 +64,4 @@ Direct binary PDF generation is deferred. Adding a PDF library would duplicate r
 
 ## Explicit Non-Goals
 
-Phase 4 does not add an AI Assistant, Research Copilot, Science Skills, Knowledge Graph behavior, Prisma, PostgreSQL, direct Firebase UI access, diagnosis, clinical recommendations, or causal interpretation. Phase 5 has not been started.
+Phase 4 reports remain deterministic and are not connected to the Phase 5 AI Assistant. Reports do not add Research Copilot, Science Skills, Knowledge Graph behavior, Prisma, PostgreSQL, direct Firebase UI access, diagnosis, clinical recommendations, or causal interpretation.

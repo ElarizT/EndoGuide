@@ -1,0 +1,1 @@
+export const KNOWLEDGE_GRAPH_PROMPT = `Reserved prompt definition for future knowledge-graph extraction. Do not create or persist entities or relationships in Phase 5. Any future extraction must be source-bound, uncertainty-aware, and must not imply clinical causation.`;

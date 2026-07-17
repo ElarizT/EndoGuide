@@ -69,13 +69,20 @@ Local-only mode:
 
 ## AI Privacy
 
-AI requests should:
+Phase 5 AI requests:
 
-- Send the minimum context required.
-- Redact unnecessary identifiers where possible.
-- Avoid including raw full documents when a short extracted passage or selected summary is enough.
-- Store provider, model, feature name, safety classification, timestamps, and token metadata when available.
-- Avoid storing full prompts and responses by default unless the user opts in or debugging mode is enabled locally.
+- Are sent only after the user explicitly submits a chat message.
+- Send only that message; stored health records and chat history are not automatically attached.
+- Pass through server-side Zod validation and input safety checks before a provider call.
+- Keep `GEMINI_API_KEY` server-only and outside all `NEXT_PUBLIC_` variables.
+- Request provider-side non-storage with `store: false` where the Gemini-compatible endpoint supports it.
+- Store only request ID, provider, model, feature, safety decision, disclaimer status, and token counts when available.
+- Always set `promptStored` and `responseStored` to `false`; raw chat content is never written to the interaction repository.
+- Disable interaction metadata persistence by default in local-only mode. Users may opt in for the current browser session.
+
+Chat messages and responses exist only in in-memory React state and are cleared when the page reloads. The server safety logger records metadata-only decisions and never logs the submitted message or returned model text.
+
+Future record-aware AI features must require explicit context selection and field-level minimization/redaction. Production exposure of the AI route also requires authentication-aware abuse prevention and rate controls.
 
 ## Audit Logging
 

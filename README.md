@@ -18,7 +18,7 @@ EndoGuide is not a doctor, diagnosis engine, treatment recommender, medication a
 - Frontend: Next.js 15+, TypeScript, App Router, TailwindCSS, shadcn/ui.
 - Data and storage: Firebase Authentication, Firestore, Firebase Storage, Firebase Security Rules, Firebase Emulator Suite, local-only mode using IndexedDB/localStorage, storage provider abstraction.
 - Validation: Zod.
-- AI layer: provider abstraction, OpenAI-compatible interface, model routing layer.
+- AI layer: server-side provider abstraction, Gemini-compatible adapter, provider routing, mock provider, and two-gate medical safety middleware.
 - Testing: Vitest, Playwright, and Firebase Rules Unit Testing.
 - Documentation: architecture, safety, privacy/security, storage, Firebase, local-only mode, implementation plan, and roadmap docs.
 
@@ -43,6 +43,9 @@ Every AI-generated medical output must include:
 - [Implementation Plan](docs/implementation-plan.md)
 - [Feature Roadmap](docs/feature-roadmap.md)
 - [Reports](docs/features/reports.md)
+- [AI Architecture](docs/ai-architecture.md)
+- [AI Safety](docs/ai-safety.md)
+- [Prompt System](docs/prompt-system.md)
 
 ## Repository Status
 
@@ -62,8 +65,9 @@ This repository contains the foundation and the feature slices completed through
 - Phase 3 medical document, appointment preparation, and unified timeline features.
 - Phase 4 deterministic Patient Summary, Doctor Visit, Research Summary, Symptom Trend, and Quality of Life reports.
 - Repository-backed report dashboard, creation flow, detail pages, Markdown/HTML exports, and a printable browser layout.
+- Phase 5 safety-bounded AI Assistant with server-side Gemini-compatible routing, graceful no-key behavior, safe suggestions, in-memory chat history, and metadata-only repository logging.
 
-AI Assistant, Research Copilot, Science Skills, OCR, and knowledge graph UI remain out of scope. Phase 5 has not been started.
+Research Copilot, Science Skills, OCR, and Knowledge Graph functionality remain out of scope. Phase 6 has not been started.
 
 ## Local Development
 
@@ -79,6 +83,16 @@ NEXT_PUBLIC_ENDOGUIDE_STORAGE_MODE=emulator
 ```
 
 Emulator mode uses isolated `demo-endoguide` client defaults when production Firebase values are absent. Install Java 11 or newer, then run `npm run firebase:emulators` in a separate terminal. No real Firebase project is required.
+
+To enable the AI Assistant, set server-only environment values in `.env.local`:
+
+```text
+ENDOGUIDE_AI_PROVIDER=gemini
+GEMINI_API_KEY=your-server-side-key
+GEMINI_MODEL=gemini-2.5-flash
+```
+
+Do not prefix the Gemini key with `NEXT_PUBLIC_`. Without a key, the app continues to run and the assistant reports that no provider is configured.
 
 ## Tests
 

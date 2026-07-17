@@ -6,6 +6,7 @@ import {
   Gauge,
   Home,
   LineChart,
+  MessageCircle,
   NotebookText,
   Settings,
   Stethoscope,
@@ -21,6 +22,7 @@ const navItems = [
   { href: "/documents", label: "Documents", icon: FileText },
   { href: "/timeline", label: "Timeline", icon: NotebookText },
   { href: "/reports", label: "Reports", icon: Syringe },
+  { href: "/assistant", label: "AI Assistant", icon: MessageCircle },
   { href: "/research", label: "Research", icon: FlaskConical },
   { href: "/settings", label: "Settings", icon: Settings }
 ];

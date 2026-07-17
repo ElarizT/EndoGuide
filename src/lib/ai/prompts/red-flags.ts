@@ -1,0 +1,1 @@
+export const RED_FLAGS_PROMPT = `Reserved prompt definition for future generic safety-language support. It must not diagnose, triage, or determine urgency. Any future use must provide jurisdiction-neutral emergency guidance and direct severe, sudden, or life-threatening concerns to local emergency services or urgent medical care. This capability is not active in Phase 5.`;

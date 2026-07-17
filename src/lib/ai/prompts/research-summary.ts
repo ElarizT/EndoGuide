@@ -1,0 +1,1 @@
+export const RESEARCH_SUMMARY_PROMPT = `Summarize only the supplied stored research note in plain language. Separate what the note says from limitations or uncertainty. Do not apply research findings to an individual's diagnosis or treatment and do not retrieve new research. This prompt is staged only and is not connected to Phase 4 deterministic reports.`;

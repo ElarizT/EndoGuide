@@ -234,17 +234,27 @@ export type GuidelineSnippet = BaseDocument & {
   sourceCitation?: string;
 };
 
+export const AI_SAFETY_CLASSIFICATIONS = [
+  "allowed",
+  "blocked-treatment-advice",
+  "blocked-diagnosis",
+  "blocked-medication",
+  "blocked-surgery",
+  "blocked-dosage-advice",
+  "blocked-treatment-ranking",
+  "blocked-start-stop-treatment",
+  "blocked-unsafe-output",
+  "needs-review"
+] as const;
+
+export type AISafetyClassification = (typeof AI_SAFETY_CLASSIFICATIONS)[number];
+
 export type AIInteractionLog = UserOwnedDocument & {
+  requestId?: string;
   feature: string;
   provider?: string;
   model?: string;
-  safetyClassification:
-    | "allowed"
-    | "blocked-treatment-advice"
-    | "blocked-diagnosis"
-    | "blocked-medication"
-    | "blocked-surgery"
-    | "needs-review";
+  safetyClassification: AISafetyClassification;
   blocked: boolean;
   disclaimerIncluded: boolean;
   tokenUsage?: { input?: number; output?: number; total?: number };
@@ -259,6 +269,7 @@ export type UserSettings = UserOwnedDocument & {
   aiConsentSettings?: {
     allowRemoteAI: boolean;
     allowPromptStorage: boolean;
+    allowLocalInteractionLogging?: boolean;
   };
   notificationPreferences?: Record<string, boolean>;
 };

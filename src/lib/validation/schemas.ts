@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { REPORT_TYPES } from "@/lib/domain";
+import { AI_SAFETY_CLASSIFICATIONS, REPORT_TYPES } from "@/lib/domain";
 
 const isoDate = z.string().datetime({ offset: true });
 const id = z.string().min(1);
@@ -226,17 +226,11 @@ export const guidelineSnippetSchema = baseDocumentSchema.extend({
 });
 
 export const aiInteractionLogSchema = userOwnedDocumentSchema.extend({
+  requestId: z.string().uuid().optional(),
   feature: z.string().min(1),
   provider: z.string().optional(),
   model: z.string().optional(),
-  safetyClassification: z.enum([
-    "allowed",
-    "blocked-treatment-advice",
-    "blocked-diagnosis",
-    "blocked-medication",
-    "blocked-surgery",
-    "needs-review"
-  ]),
+  safetyClassification: z.enum(AI_SAFETY_CLASSIFICATIONS),
   blocked: z.boolean(),
   disclaimerIncluded: z.boolean(),
   tokenUsage: z.object({
@@ -254,7 +248,8 @@ export const userSettingsSchema = userOwnedDocumentSchema.extend({
   storageModePreference: z.enum(["firebase", "emulator", "local"]).optional(),
   aiConsentSettings: z.object({
     allowRemoteAI: z.boolean(),
-    allowPromptStorage: z.boolean()
+    allowPromptStorage: z.boolean(),
+    allowLocalInteractionLogging: z.boolean().optional()
   }).optional(),
   notificationPreferences: z.record(z.boolean()).optional()
 });

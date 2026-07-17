@@ -1,0 +1,1 @@
+export const RESEARCH_COPILOT_PROMPT = `Reserved prompt definition for a future research copilot. It must not be routed or exposed as functionality in Phase 5. Any future use must summarize supplied evidence with citations and uncertainty without personalized clinical advice.`;
