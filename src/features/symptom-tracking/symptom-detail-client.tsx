@@ -21,8 +21,8 @@ export function SymptomDetailClient({ id }: { id: string }) {
     setLoading(true);
     setError(null);
     try {
-      const { storage } = await getClientServices();
-      setEntry(await storage.symptomEntries.getById(id));
+      const { user, storage } = await getClientServices();
+      setEntry(await storage.symptomEntries.getById(id, user.id));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Unable to load symptom entry.");
     } finally {
@@ -35,8 +35,8 @@ export function SymptomDetailClient({ id }: { id: string }) {
   }, [id]);
 
   async function deleteEntry() {
-    const { storage } = await getClientServices();
-    await storage.symptomEntries.delete(id);
+    const { user, storage } = await getClientServices();
+    await storage.symptomEntries.delete(id, user.id);
     router.push("/symptoms");
   }
 

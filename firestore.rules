@@ -14,6 +14,24 @@ service cloud.firestore {
       return signedIn() && request.resource.data.userId == request.auth.uid;
     }
 
+    function isUserOwnedCollection(collectionId) {
+      return collectionId in [
+        'patientProfiles',
+        'symptomEntries',
+        'treatmentEntries',
+        'medicationLogs',
+        'appointments',
+        'medicalDocuments',
+        'documentTags',
+        'doctorReports',
+        'timelineEvents',
+        'researchNotes',
+        'researchSources',
+        'userSettings',
+        'aiInteractionLogs'
+      ];
+    }
+
     match /users/{userId} {
       allow read, create, update: if signedIn() && userId == request.auth.uid;
       allow delete: if false;
@@ -41,8 +59,8 @@ service cloud.firestore {
     }
 
     match /{collectionId}/{documentId} {
-      allow read, update, delete: if ownsExisting();
-      allow create: if ownsIncoming();
+      allow read, update, delete: if isUserOwnedCollection(collectionId) && ownsExisting();
+      allow create: if isUserOwnedCollection(collectionId) && ownsIncoming();
     }
   }
 }

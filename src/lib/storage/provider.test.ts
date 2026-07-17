@@ -18,4 +18,8 @@ describe("storage provider selection", () => {
     const provider = createStorageProvider("firebase");
     expect(provider.mode).toBe("local");
   });
+
+  it("does not require production Firebase config for emulator mode", () => {
+    expect(() => createStorageProvider("emulator")).not.toThrow();
+  });
 });

@@ -5,7 +5,7 @@ export default function DashboardPage() {
   return (
     <PageShell
       title="Dashboard"
-      description="A future overview for recent symptoms, upcoming appointments, documents, and safety-bounded preparation tasks."
+      description="An overview of recent symptoms, upcoming appointments, documents, and safety-bounded preparation tasks."
     >
       <DashboardClient />
     </PageShell>

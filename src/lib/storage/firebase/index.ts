@@ -44,7 +44,7 @@ import {
 } from "./generic-repository";
 
 export function createFirebaseStorageProvider(mode: "firebase" | "emulator" = "firebase"): StorageProvider {
-  const services = getFirebaseServices();
+  const services = getFirebaseServices(mode === "emulator");
   if (!services) {
     throw new Error("Firebase storage provider requested, but Firebase config is missing.");
   }

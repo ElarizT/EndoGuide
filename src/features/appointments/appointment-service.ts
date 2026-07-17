@@ -84,8 +84,7 @@ export async function updateAppointment(
   values: AppointmentFormValues
 ) {
   const input = buildAppointmentInput(userId, values);
-  return storage.appointments.update(id, {
+  return storage.appointments.update(id, userId, {
     ...input,
-    userId
   });
 }

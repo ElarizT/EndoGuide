@@ -8,8 +8,10 @@ export function createAuthProvider(): AuthProvider {
   const mode = getConfiguredStorageMode();
   if (mode === "local") return createLocalAuthProvider();
 
-  const validation = validateFirebaseConfig(getFirebaseRuntimeConfig());
+  const validation = validateFirebaseConfig(
+    getFirebaseRuntimeConfig(process.env, mode === "emulator")
+  );
   if (!validation.ok) return createLocalAuthProvider();
 
-  return createFirebaseAuthProvider();
+  return createFirebaseAuthProvider(mode === "emulator");
 }

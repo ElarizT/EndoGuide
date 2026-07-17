@@ -26,8 +26,8 @@ export function AppointmentDetailClient({ id }: { id: string }) {
     setLoading(true);
     setError(null);
     try {
-      const { storage } = await getClientServices();
-      setAppointment(await storage.appointments.getById(id));
+      const { user, storage } = await getClientServices();
+      setAppointment(await storage.appointments.getById(id, user.id));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Unable to load appointment.");
     } finally {
@@ -74,7 +74,7 @@ export function AppointmentDetailClient({ id }: { id: string }) {
       ],
       disclaimerIncluded: true
     });
-    const updatedAppointment = await storage.appointments.update(appointment.id, {
+    const updatedAppointment = await storage.appointments.update(appointment.id, user.id, {
       preparationSummaryId: report.id
     });
     setAppointment(updatedAppointment);
@@ -121,8 +121,8 @@ export function AppointmentDetailClient({ id }: { id: string }) {
                 <Button onClick={() => void generatePrep()} type="button" variant="secondary">Generate preparation</Button>
                 <Button
                   onClick={async () => {
-                    const { storage } = await getClientServices();
-                    await storage.appointments.delete(id);
+                    const { user, storage } = await getClientServices();
+                    await storage.appointments.delete(id, user.id);
                     router.push("/appointments");
                   }}
                   type="button"

@@ -53,7 +53,7 @@ describe("firebase document repository mocks", () => {
     });
 
     expect(created.id).toBe("firebase-doc-1");
-    expect(await repository.getById("firebase-doc-1")).toMatchObject({
+    expect(await repository.getById("firebase-doc-1", "firebase-user")).toMatchObject({
       fileName: "letter.pdf",
       storageMode: "firebase"
     });

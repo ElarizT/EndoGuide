@@ -67,7 +67,7 @@ src/lib/local/
 
 Local document metadata belongs in IndexedDB. Phase 3 stores file bytes as IndexedDB Blobs when available and stores the local blob reference in document metadata.
 
-The UI must show this limitation:
+The app shell identifies local-only mode on every route. Document screens also show the more specific file limitation:
 
 > Local-only files are stored in this browser's local storage/IndexedDB when available. They are not synced, are tied to this browser profile, and may be removed if browser site data is cleared.
 

@@ -22,12 +22,12 @@ import type {
 export type CreateInput<T extends { id: string; createdAt: string; updatedAt: string }> =
   Omit<T, "id" | "createdAt" | "updatedAt"> & Partial<Pick<T, "id" | "createdAt" | "updatedAt">>;
 
-export type Repository<T extends { id: string; createdAt: string; updatedAt: string }> = {
+export type Repository<T extends { id: string; userId: string; createdAt: string; updatedAt: string }> = {
   create(input: CreateInput<T>): Promise<T>;
-  getById(id: string): Promise<T | null>;
+  getById(id: string, userId: string): Promise<T | null>;
   listByUser(userId: string): Promise<T[]>;
-  update(id: string, updates: Partial<Omit<T, "id" | "createdAt">>): Promise<T>;
-  delete(id: string): Promise<void>;
+  update(id: string, userId: string, updates: Partial<Omit<T, "id" | "createdAt" | "userId">>): Promise<T>;
+  delete(id: string, userId: string): Promise<void>;
 };
 
 export type ReadOnlyRepository<T extends { id: string; createdAt: string; updatedAt: string }> = {

@@ -77,8 +77,7 @@ export async function updateTreatmentEntry(
   values: TreatmentFormValues
 ) {
   const input = buildTreatmentEntryInput(userId, values);
-  return storage.treatmentEntries.update(id, {
+  return storage.treatmentEntries.update(id, userId, {
     ...input,
-    userId
   });
 }

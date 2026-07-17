@@ -1,5 +1,6 @@
 import {
   onAuthStateChanged,
+  signInAnonymously,
   signOut as firebaseSignOut,
   type User as FirebaseUser
 } from "firebase/auth";
@@ -15,8 +16,8 @@ function mapFirebaseUser(user: FirebaseUser): AuthUser {
   };
 }
 
-export function createFirebaseAuthProvider(): AuthProvider {
-  const services = getFirebaseServices();
+export function createFirebaseAuthProvider(useEmulator = false): AuthProvider {
+  const services = getFirebaseServices(useEmulator);
   if (!services) {
     throw new Error("Firebase auth provider requested, but Firebase config is missing.");
   }
@@ -24,9 +25,13 @@ export function createFirebaseAuthProvider(): AuthProvider {
   return {
     mode: "firebase",
     async getCurrentUser() {
+      await services.auth.authStateReady();
       const user = services.auth.currentUser;
       return user ? mapFirebaseUser(user) : null;
     },
+    signInDemo: useEmulator
+      ? async () => mapFirebaseUser((await signInAnonymously(services.auth)).user)
+      : undefined,
     async signOut() {
       await firebaseSignOut(services.auth);
     },

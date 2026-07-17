@@ -14,7 +14,7 @@ export async function getClientServices(): Promise<ClientServices> {
   const auth = createAuthProvider();
   let user = await auth.getCurrentUser();
 
-  if (!user && auth.mode === "local" && auth.signInDemo) {
+  if (!user && auth.signInDemo) {
     user = await auth.signInDemo();
   }
 

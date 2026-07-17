@@ -8,10 +8,10 @@ import type { FirebaseServices } from "./types";
 
 let services: FirebaseServices | null = null;
 
-export function getFirebaseServices(): FirebaseServices | null {
+export function getFirebaseServices(forceEmulators = false): FirebaseServices | null {
   if (services) return services;
 
-  const runtimeConfig = getFirebaseRuntimeConfig();
+  const runtimeConfig = getFirebaseRuntimeConfig(process.env, forceEmulators);
   const validation = validateFirebaseConfig(runtimeConfig);
 
   if (!validation.ok) {

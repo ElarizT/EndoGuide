@@ -21,8 +21,8 @@ export function TreatmentDetailClient({ id }: { id: string }) {
     setLoading(true);
     setError(null);
     try {
-      const { storage } = await getClientServices();
-      setEntry(await storage.treatmentEntries.getById(id));
+      const { user, storage } = await getClientServices();
+      setEntry(await storage.treatmentEntries.getById(id, user.id));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Unable to load treatment.");
     } finally {
@@ -35,8 +35,8 @@ export function TreatmentDetailClient({ id }: { id: string }) {
   }, [id]);
 
   async function deleteEntry() {
-    const { storage } = await getClientServices();
-    await storage.treatmentEntries.delete(id);
+    const { user, storage } = await getClientServices();
+    await storage.treatmentEntries.delete(id, user.id);
     router.push("/treatments");
   }
 

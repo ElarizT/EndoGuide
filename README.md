@@ -13,13 +13,13 @@ EndoGuide is not a doctor, diagnosis engine, treatment recommender, medication a
 - Include clear educational-only disclaimers on every AI-generated medical output.
 - Design for privacy, local-first development, and future production hardening.
 
-## Planned Stack
+## Stack
 
 - Frontend: Next.js 15+, TypeScript, App Router, TailwindCSS, shadcn/ui.
 - Data and storage: Firebase Authentication, Firestore, Firebase Storage, Firebase Security Rules, Firebase Emulator Suite, local-only mode using IndexedDB/localStorage, storage provider abstraction.
 - Validation: Zod.
 - AI layer: provider abstraction, OpenAI-compatible interface, model routing layer.
-- Testing: Vitest and Playwright.
+- Testing: Vitest, Playwright, and Firebase Rules Unit Testing.
 - Documentation: architecture, safety, privacy/security, storage, Firebase, local-only mode, implementation plan, and roadmap docs.
 
 ## Safety Boundary
@@ -45,7 +45,7 @@ Every AI-generated medical output must include:
 
 ## Repository Status
 
-This repository now contains the core technical foundation for phased implementation:
+This repository contains the foundation and the feature slices completed through the current phase:
 
 - Next.js App Router scaffold with placeholder product routes.
 - TailwindCSS and shadcn/ui-compatible configuration.
@@ -59,7 +59,7 @@ This repository now contains the core technical foundation for phased implementa
 - Daily symptom tracker with create, history, detail, edit, delete, validation, and timeline helper events.
 - Treatment history with active/past organization, detail, edit, delete, validation, and timeline helper events.
 
-Advanced AI, research copilot, OCR, complex reports, knowledge graph UI, and charts are intentionally out of scope for this phase.
+Advanced AI, research copilot, OCR, complex report generation, and knowledge graph UI are intentionally out of scope for this phase.
 
 ## Local Development
 
@@ -72,10 +72,9 @@ Firebase emulator mode can be enabled with:
 
 ```text
 NEXT_PUBLIC_ENDOGUIDE_STORAGE_MODE=emulator
-NEXT_PUBLIC_FIREBASE_USE_EMULATORS=true
 ```
 
-Then run `npm run firebase:emulators` in a separate terminal.
+Emulator mode uses isolated `demo-endoguide` client defaults when production Firebase values are absent. Install Java 11 or newer, then run `npm run firebase:emulators` in a separate terminal. No real Firebase project is required.
 
 ## Tests
 
@@ -83,4 +82,10 @@ Run:
 
 ```text
 npm test
+npm run typecheck
+npm run build
 ```
+
+For browser smoke tests, install Chromium once with `npx playwright install chromium`, then run `npm run test:e2e`.
+
+For Firestore and Storage ownership tests, install Java 11 or newer and run `npm run test:rules`.

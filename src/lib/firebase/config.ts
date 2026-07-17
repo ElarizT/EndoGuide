@@ -11,16 +11,20 @@ function readPort(value: string | undefined, fallback: number) {
 }
 
 export function getFirebaseRuntimeConfig(
-  env: Record<string, string | undefined> = process.env
+  env: Record<string, string | undefined> = process.env,
+  forceEmulators = false
 ): FirebaseRuntimeConfig {
+  const useEmulators = forceEmulators || readBoolean(env.NEXT_PUBLIC_FIREBASE_USE_EMULATORS);
+  const emulatorProjectId = env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ?? "demo-endoguide";
+
   return {
-    apiKey: env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    useEmulators: readBoolean(env.NEXT_PUBLIC_FIREBASE_USE_EMULATORS),
+    apiKey: env.NEXT_PUBLIC_FIREBASE_API_KEY ?? (useEmulators ? "demo-api-key" : undefined),
+    authDomain: env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN ?? (useEmulators ? `${emulatorProjectId}.firebaseapp.com` : undefined),
+    projectId: env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ?? (useEmulators ? emulatorProjectId : undefined),
+    storageBucket: env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET ?? (useEmulators ? `${emulatorProjectId}.appspot.com` : undefined),
+    messagingSenderId: env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? (useEmulators ? "000000000000" : undefined),
+    appId: env.NEXT_PUBLIC_FIREBASE_APP_ID ?? (useEmulators ? "1:000000000000:web:endoguide" : undefined),
+    useEmulators,
     emulatorHosts: {
       auth: {
         host: env.NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST ?? "127.0.0.1",

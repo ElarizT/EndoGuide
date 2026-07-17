@@ -303,18 +303,20 @@ Fields:
 - Global research collections should be read-only to normal users unless user-specific copies are created.
 - Audit logs should be append-only for clients or written only through trusted server paths.
 
-The initial rules deny by default, scope user-owned collections by `userId`, keep global research collections read-only to authenticated users, and make audit logs append-only from the client.
+The rules deny by default, explicitly allow only known user-owned collections, keep global research collections read-only to authenticated users, and make audit logs append-only from the client. The generic user-owned match is intentionally allowlisted so it cannot override curated or append-only collection rules.
 
 ## Storage Paths
 
 Firebase Storage paths should be user-scoped:
 
 ```text
-users/{userId}/medical-documents/{documentId}/{fileName}
+users/{userId}/documents/{documentId}/{fileName}
 users/{userId}/generated-reports/{reportId}/{fileName}
 ```
 
 Rules should ensure authenticated users can only read and write within their own user path.
+
+Current Storage rules also enforce the same 10 MB limit and PDF, PNG, JPEG, or plain-text content types used by client validation.
 
 ## Emulator Suite
 
@@ -325,3 +327,5 @@ Local Firebase development should use:
 - Storage emulator.
 - Seed scripts for non-sensitive sample data.
 - Rules tests for ownership and denial behavior.
+
+The checked-in emulator setup uses the isolated project ID `demo-endoguide`. Emulator mode can use safe demo client configuration when production Firebase values are absent. Java 11 or newer is required by the Firebase emulators.

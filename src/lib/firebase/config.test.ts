@@ -25,4 +25,13 @@ describe("firebase config", () => {
 
     expect(validation.ok).toBe(true);
   });
+
+  it("uses isolated demo config when emulator mode is forced", () => {
+    const config = getFirebaseRuntimeConfig({}, true);
+    const validation = validateFirebaseConfig(config);
+
+    expect(config.useEmulators).toBe(true);
+    expect(config.projectId).toBe("demo-endoguide");
+    expect(validation.ok).toBe(true);
+  });
 });

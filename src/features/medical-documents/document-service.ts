@@ -81,10 +81,11 @@ export async function createMedicalDocument(input: {
 export async function updateMedicalDocument(
   storage: StorageProvider,
   id: string,
+  userId: string,
   values: DocumentMetadataFormValues
 ) {
   const parsed = documentMetadataFormSchema.parse(values);
-  return storage.medicalDocuments.update(id, {
+  return storage.medicalDocuments.update(id, userId, {
     documentType: parsed.documentType,
     documentDate: optionalIsoDate(parsed.documentDate),
     notes: parsed.notes,
@@ -93,12 +94,16 @@ export async function updateMedicalDocument(
   });
 }
 
-export async function deleteMedicalDocument(storage: StorageProvider, document: MedicalDocument) {
+export async function deleteMedicalDocument(
+  storage: StorageProvider,
+  userId: string,
+  document: MedicalDocument
+) {
   const fileStorage = createFileStorageProvider(storage.mode);
   await fileStorage.delete({
     storageMode: document.storageMode,
     storagePath: document.storagePath,
     fileReference: document.fileReference
   });
-  await storage.medicalDocuments.delete(document.id);
+  await storage.medicalDocuments.delete(document.id, userId);
 }

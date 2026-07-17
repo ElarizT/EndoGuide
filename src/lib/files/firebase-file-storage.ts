@@ -6,7 +6,7 @@ import type { FileStorageProvider, StoredFileReference } from "./types";
 export function createFirebaseFileStorageProvider(
   mode: "firebase" | "emulator" = "firebase"
 ): FileStorageProvider {
-  const services = getFirebaseServices();
+  const services = getFirebaseServices(mode === "emulator");
   if (!services) {
     throw new Error("Firebase file storage requested, but Firebase config is missing.");
   }

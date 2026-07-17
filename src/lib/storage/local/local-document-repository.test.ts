@@ -20,7 +20,7 @@ describe("local document metadata repository", () => {
     const listed = await provider.medicalDocuments.listByUser("document-user");
     expect(listed).toContainEqual(expect.objectContaining({ id: created.id, documentType: "MRI" }));
 
-    const updated = await provider.medicalDocuments.update(created.id, { notes: "Updated note" });
+    const updated = await provider.medicalDocuments.update(created.id, "document-user", { notes: "Updated note" });
     expect(updated.notes).toBe("Updated note");
   });
 });

@@ -26,7 +26,7 @@ The auth provider exposes:
 
 ## Firebase Auth
 
-Firebase mode uses Firebase Authentication through `src/lib/auth/firebase`. Firebase services are created by `src/lib/firebase/client.ts`, which reads environment variables and connects to emulators when configured.
+Firebase mode uses Firebase Authentication through `src/lib/auth/firebase`. Firebase services are created by `src/lib/firebase/client.ts`, which reads environment variables and connects to emulators when configured. Emulator mode signs in an isolated anonymous demo user so current feature routes can exercise authenticated rules; production Firebase mode still requires a future sign-in UI.
 
 ## Local Auth
 

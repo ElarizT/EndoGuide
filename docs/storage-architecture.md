@@ -76,6 +76,8 @@ The first implementation uses generic CRUD-style repository interfaces:
 - `update`
 - `delete`
 
+User-owned `getById`, `update`, and `delete` calls require an explicit `userId`. Both local and Firebase adapters enforce that ownership boundary so feature code cannot rely only on route IDs or vendor rules.
+
 Curated/global research repositories currently expose read-only methods.
 
 ## Phase 2 Feature Usage

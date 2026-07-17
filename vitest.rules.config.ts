@@ -3,9 +3,10 @@ import { fileURLToPath } from "node:url";
 
 export default defineConfig({
   test: {
-    environment: "jsdom",
+    environment: "node",
     globals: true,
-    include: ["src/**/*.test.ts", "src/**/*.test.tsx"]
+    include: ["tests/rules/**/*.test.ts"],
+    testTimeout: 15_000
   },
   resolve: {
     alias: {

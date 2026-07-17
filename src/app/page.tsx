@@ -10,9 +10,7 @@ export default function HomePage() {
     >
       <div className="flex flex-col gap-4">
         <p className="text-sm leading-6 text-muted-foreground">
-          This foundation phase includes the app shell, storage abstractions,
-          Firebase/local mode scaffolding, validation schemas, and safety policy
-          constants.
+          Organize symptoms, treatment history, appointments, documents, and a unified timeline through local-only or repository-backed storage.
         </p>
         <div>
           <Button asChild>

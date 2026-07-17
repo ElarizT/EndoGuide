@@ -12,7 +12,7 @@ function newId() {
 }
 
 export function createLocalRepository<
-  T extends { id: string; createdAt: string; updatedAt: string }
+  T extends { id: string; userId: string; createdAt: string; updatedAt: string }
 >(
   db: LocalDatabase,
   storeName: LocalStoreName,
@@ -29,27 +29,31 @@ export function createLocalRepository<
       }) as T;
       return db.put(storeName, value);
     },
-    async getById(id: string) {
+    async getById(id: string, userId: string) {
       const value = await db.get<T>(storeName, id);
-      return value ? (schema.parse(value) as T) : null;
+      if (!value || (value as { userId?: string }).userId !== userId) return null;
+      return schema.parse(value) as T;
     },
     async listByUser(userId: string) {
       const values = await db.list<T>(storeName, userId);
       return values.map((item) => schema.parse(item) as T);
     },
-    async update(id: string, updates: Partial<Omit<T, "id" | "createdAt">>) {
-      const existing = await this.getById(id);
+    async update(id: string, userId: string, updates: Partial<Omit<T, "id" | "createdAt" | "userId">>) {
+      const existing = await this.getById(id, userId);
       if (!existing) throw new Error(`Document ${storeName}/${id} was not found.`);
       const value = schema.parse({
         ...existing,
         ...updates,
         id,
+        userId: existing.userId,
         createdAt: existing.createdAt,
         updatedAt: now()
       }) as T;
       return db.put(storeName, value);
     },
-    async delete(id: string) {
+    async delete(id: string, userId: string) {
+      const existing = await this.getById(id, userId);
+      if (!existing) throw new Error(`Document ${storeName}/${id} was not found.`);
       await db.delete(storeName, id);
     }
   };

@@ -6,8 +6,18 @@ service firebase.storage {
       return request.auth != null;
     }
 
+    function ownsPath(userId) {
+      return signedIn() && userId == request.auth.uid;
+    }
+
+    function isSupportedMedicalDocument() {
+      return request.resource.size <= 10 * 1024 * 1024
+        && request.resource.contentType.matches('application/pdf|image/png|image/jpeg|text/plain');
+    }
+
     match /users/{userId}/{allPaths=**} {
-      allow read, write: if signedIn() && userId == request.auth.uid;
+      allow read, delete: if ownsPath(userId);
+      allow create, update: if ownsPath(userId) && isSupportedMedicalDocument();
     }
 
     match /{allPaths=**} {

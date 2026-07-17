@@ -2,7 +2,7 @@
 
 ## Phase 0: Documentation and Architecture
 
-Status: current phase.
+Status: complete. This file is the long-term roadmap, not a claim that every later phase is complete. The repository status and README describe the feature slices delivered through the current implementation phase.
 
 Deliverables:
 
@@ -18,6 +18,8 @@ Deliverables:
 No feature implementation should be added in this phase.
 
 ## Phase 1: Project Foundation
+
+Status: complete for the current implementation scope.
 
 Deliverables:
 
@@ -38,6 +40,8 @@ Acceptance criteria:
 
 ## Phase 2: Validation and Domain Types
 
+Status: complete for the current implementation scope.
+
 Deliverables:
 
 - Add shared Zod schemas.
@@ -51,6 +55,8 @@ Acceptance criteria:
 - Domain types are exported from stable module boundaries.
 
 ## Phase 3: Storage Abstraction
+
+Status: complete for the current implementation scope.
 
 Deliverables:
 
@@ -68,6 +74,8 @@ Acceptance criteria:
 
 ## Phase 4: Firebase Foundation
 
+Status: foundation implemented and hardened in the current review. Production authentication UI remains future work.
+
 Deliverables:
 
 - Configure Firebase client.
@@ -84,6 +92,8 @@ Acceptance criteria:
 
 ## Phase 5: Auth Abstraction
 
+Status: provider abstraction implemented. Full production sign-in and route protection remain future work.
+
 Deliverables:
 
 - Define `AuthProvider` interface.
@@ -97,6 +107,8 @@ Acceptance criteria:
 - UI can access current user context without vendor-specific APIs.
 
 ## Phase 6: Safety Layer
+
+Status: constants and initial policy helpers implemented. AI-wide enforcement remains blocked on the future AI layer.
 
 Deliverables:
 
@@ -114,6 +126,8 @@ Acceptance criteria:
 
 ## Phase 7: AI Provider Abstraction
 
+Status: not started.
+
 Deliverables:
 
 - Define OpenAI-compatible provider interface.
@@ -129,6 +143,8 @@ Acceptance criteria:
 - Safety checks wrap every medical AI output.
 
 ## Phase 8: MVP Feature Slices
+
+Status: partially implemented through dashboard, symptoms, treatment history, appointments, documents, deterministic appointment preparation, and timeline. Remaining items are future phases.
 
 Recommended order:
 

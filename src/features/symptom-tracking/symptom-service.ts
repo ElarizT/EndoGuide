@@ -104,8 +104,7 @@ export async function updateSymptomEntry(
   values: SymptomFormValues
 ) {
   const input = buildSymptomEntryInput(userId, values);
-  return storage.symptomEntries.update(id, {
+  return storage.symptomEntries.update(id, userId, {
     ...input,
-    userId
   });
 }

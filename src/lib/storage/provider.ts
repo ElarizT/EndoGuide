@@ -1,23 +1,18 @@
+import { getConfiguredStorageMode } from "@/lib/config";
 import type { StorageMode } from "@/lib/domain";
 import { getFirebaseRuntimeConfig, validateFirebaseConfig } from "@/lib/firebase/config";
 import { createFirebaseStorageProvider } from "./firebase";
 import { createLocalStorageProvider } from "./local";
 import type { StorageProvider } from "./types";
 
-export function getConfiguredStorageMode(
-  env: Record<string, string | undefined> = process.env
-): StorageMode {
-  const raw = env.NEXT_PUBLIC_ENDOGUIDE_STORAGE_MODE;
-  if (raw === "firebase" || raw === "emulator" || raw === "local") return raw;
-  return "local";
-}
+export { getConfiguredStorageMode } from "@/lib/config";
 
 export function createStorageProvider(
   mode = getConfiguredStorageMode()
 ): StorageProvider {
   if (mode === "local") return createLocalStorageProvider();
 
-  const firebaseConfig = getFirebaseRuntimeConfig();
+  const firebaseConfig = getFirebaseRuntimeConfig(process.env, mode === "emulator");
   const validation = validateFirebaseConfig(firebaseConfig);
   if (!validation.ok) {
     if (process.env.NODE_ENV !== "production") {

@@ -26,8 +26,8 @@ export function DocumentDetailClient({ id }: { id: string }) {
     setLoading(true);
     setError(null);
     try {
-      const { storage } = await getClientServices();
-      setDocument(await storage.medicalDocuments.getById(id));
+      const { user, storage } = await getClientServices();
+      setDocument(await storage.medicalDocuments.getById(id, user.id));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Unable to load document.");
     } finally {
@@ -53,8 +53,8 @@ export function DocumentDetailClient({ id }: { id: string }) {
           <DocumentForm
             initialValues={documentToFormValues(document)}
             onSubmit={async (values) => {
-              const { storage } = await getClientServices();
-              const updated = await updateMedicalDocument(storage, id, values);
+              const { user, storage } = await getClientServices();
+              const updated = await updateMedicalDocument(storage, id, user.id, values);
               setDocument(updated);
               setEditing(false);
             }}
@@ -83,8 +83,8 @@ export function DocumentDetailClient({ id }: { id: string }) {
               <Button onClick={() => setEditing(true)} type="button">Edit notes and tags</Button>
               <Button
                 onClick={async () => {
-                  const { storage } = await getClientServices();
-                  await deleteMedicalDocument(storage, document);
+                  const { user, storage } = await getClientServices();
+                  await deleteMedicalDocument(storage, user.id, document);
                   router.push("/documents");
                 }}
                 type="button"
